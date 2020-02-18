@@ -30,7 +30,8 @@ class App extends React.Component {
             cartCount: 0,
             products:[
                 
-            ]
+            ],
+            cart: []
 
         }
     }
@@ -39,6 +40,15 @@ class App extends React.Component {
 
     componentDidMount(){
         this.loadProduct( )
+        this.initCart();
+    }
+    initCart()
+    {
+        let mycart =localStorage.getItem('cart')
+        mycart=JSON.parse(mycart)
+        this.setState({
+            cart:mycart || []
+        })
     }
     componentDidUpdate(prevProps,prevState)
     {
@@ -46,21 +56,40 @@ class App extends React.Component {
         alert('count exceeded!!')
     }
 
-    addCount(){
-        const newCount=this.state.cartCount+1;
+    addtocart(products){
+       const newCart = this.state.cart;
+       newCart.push(products)
+
+       localStorage.setItem('cart',JSON.stringify(newCart))
         this.setState({
-            cartCount:newCount
+            cart: newCart
         })
     }
     loadProduct(){
-        this.setState({
-            products:productArray
+        fetch('https://my-json-server.typicode.com/shiyasvp92/sample_products/products',{
+            method: 'GET'
         })
-    }y
-
+        .then((response)=> {
+            return response.json()
+        })
+        .then((data)=>{
+            console.log(data)
+            this.setState({
+                products:data
+            })
+        })
+        .catch((error)=> {
+            console.error(error)
+        
+    })
+    }
+    viewCart()
+    {
+        console.log(this.state.cart)
+    }
  render() {
      const productsList =this.state.products.map((products)=>{
-         return producTile(this.addCount.bind(this),products)
+         return producTile(this.addtocart.bind(this),products)
      })
      console.log(productsList)
     return (
@@ -73,7 +102,9 @@ class App extends React.Component {
     {this.state.firstState}
     
     <p align="right">
-        <button type="button" className="btn btn-warning">Cart{this.state.cartCount}</button>
+        <button type="button" className="btn btn-warning" onClick={()=>{
+            this.viewCart();
+        }}>Cart{this.state.cartCount}</button>
     </p>
     </nav>
             <div className="row">

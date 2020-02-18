@@ -1,5 +1,5 @@
 import React from "react";
-export default function producTile(addCount,product){
+export default function producTile(addtocart,product){
     return(<div className="col-3">
     <div className="card mb-3" style={{"maxWidth": "540px"}}>
         <div className="row no-gutters">
@@ -12,7 +12,7 @@ export default function producTile(addCount,product){
                     <button
                      className="btn btn-primary add-btn"
                      onClick={()=>{
-                        addCount()
+                        addtocart(product)
                         }}
                     >
                     Add
