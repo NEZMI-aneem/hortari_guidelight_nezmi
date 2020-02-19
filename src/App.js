@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import { render } from '@testing-library/react';
 import producTile from './components/producTile';
+import { Link } from 'react-router-dom';
 const productArray=[
     {
         "id":1,
@@ -100,12 +101,13 @@ class App extends React.Component {
 
     <img src="download.jpg." width="70" height="150" className="d-inline-block align-top" alt=""/>
     {this.state.firstState}
-    
+    <Link to="/cart">
     <p align="right">
         <button type="button" className="btn btn-warning" onClick={()=>{
             this.viewCart();
-        }}>Cart{this.state.cartCount}</button>
+        }}>Cart{this.state.cart.length}</button>
     </p>
+    </Link>
     </nav>
             <div className="row">
                 {productsList}
